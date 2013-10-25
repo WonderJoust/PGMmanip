@@ -14,3 +14,6 @@ TAG to do
 		-tshirt?
 		-dues?
 		-flyers?
+
+
+				THERE ARE NO DUES, YOU'RE A DOUCHBEAG
