@@ -12,44 +12,103 @@
 
 using namespace std;
 
-int pgmRead (string somefile, string &tag, string header[], int pixels[][1024]);
+int pgmRead (string somefile, string &tag, int &pgmCols, int &pgmRows, int &pgmMaxval, int pixels[][1024]);
 
 int main ()
 {
-	string tag;
-	string header[3]={"0"};
+	string tag = "null";
+	int pgmCols=0;
+	int pgmRows=0;
+	int pgmMaxval=0;
 	int pixels[1024][1024];
+
 
 	string thisFile = "somepic.pgm";
 
-	pgmRead (thisFile, tag, header, pixels);
+	if (pgmRead (thisFile, tag, pgmCols, pgmRows, pgmMaxval, pixels))
+		cout << "Unexpected value in header. Please check source file.";
+
+	else
+	{
+		/*----PASS CHECKS
+		cout << tag << endl << pgmCols << endl << pgmRows << endl << pgmMaxval << endl << endl;
+
+		for ( int j = 0; j < pgmRows; j++ )
+		{
+			for ( int i = 0; i < pgmCols; i++ )
+				cout << pixels[j][i] << " ";
+			cout << endl;
+		}
+		*///---!PASS CHECKS
+	}
+
 	return 0;
+
+
 }
 
 
-int pgmRead (string somefile, string &tag, string header[], int pixels[][1024])
+int pgmRead (string somefile, string &tag, int &pgmCols, int &pgmRows, int &pgmMaxval, int pixels[][1024])
 {
 	string thisLine;
 
 	ifstream inFile (somefile.c_str());
 
-	int j = 0;
+	int row = 0; //row tracker
 
 	while ( getline(inFile, thisLine) ) //pull line
 	{
-		cout << "The line is: " << thisLine << endl;
+		//cout << "The line is: " << thisLine << endl;
 
-		istringstream ss(thisLine);
-		//load in string parser
-		unsigned int i=0;
-		int x=0;
-		while (ss.good() && i < thisLine.length())
+		if (row == 0) //top line tag
 		{
-			ss >> x;
-			cout << x<<endl;
-			i++;
+			stringstream ss(thisLine);
+			ss >> tag;
 		}
+
+		else if (row == 1) //cols rows
+		{
+			istringstream is(thisLine);
+			is >> pgmCols >> pgmRows;
+		}
+
+		else if (row == 2) //maxval
+		{
+			istringstream is(thisLine);
+			is >> pgmMaxval;
+		}
+
+		else //outside header
+		{
+			istringstream is(thisLine);
+			unsigned int col=0;
+			int x=0;
+			while (is.good() && col < thisLine.length())
+			{
+				is >> x;
+				//cout << x<<endl;
+				pixels[row-3][col] = x;
+				col++;
+			}
+
+		}
+		row++;
 	}
+
+	/*----PARSE CHECKS
+	cout << tag << endl << pgmCols << endl << pgmRows << endl << pgmMaxval << endl << endl;
+
+	for ( int j = 0; j < pgmRows; j++ )
+	{
+		for ( int i = 0; i < pgmCols; i++ )
+			cout << pixels[j][i] << " ";
+		cout << endl;
+	}
+	*///---!PARSE CHECKS
+
+	//Quick sanity check
+	if ( tag == "null" || pgmRows == 0 || pgmCols == 0 || pgmMaxval == 0 )
+		return 1;
 
 	return 0;
 }
