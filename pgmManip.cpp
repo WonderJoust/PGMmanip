@@ -9,10 +9,11 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include "pgmManip2.h"
 
 using namespace std;
 
-int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &pgmRows, unsigned int &pgmMaxval, unsigned int pixels[][1024]);
+//int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &pgmRows, unsigned int &pgmMaxval, unsigned int pixels[][1024]);
 
 int main ()
 {
@@ -41,7 +42,7 @@ int main ()
 		//Options list
 		cout << "(1) Invert image"<<endl
 				<< "(2) Rotate image" <<endl
-				<< "(3) Output current image info to console"<<endl;
+				<< "(3) Output current image info to console"<<endl
 				<< "(4) Save current image" <<endl
 				<< "(5) Exit"<<endl;
 
@@ -51,7 +52,7 @@ int main ()
 		switch (option)
 		{
 		case 1:
-			//pgmInvert(pgmMaxval, pixels);
+			pgmInvert(pgmCols, pgmRows, pgmMaxval, pixels);
 			cout << "pgmInvert"<<endl;
 			break;
 		case 2:
@@ -59,11 +60,11 @@ int main ()
 			cout << "pgmRotate"<<endl;
 			break;
 		case 3:
-			//pgmOut(string somefile, string tag, unsigned int pgmCols, unsigned int pgmRows, unsigned int pgmMaxval, unsigned int pixels[][1024])
+			pgmOut( tag, pgmCols, pgmRows, pgmMaxval, pixels );
 			cout << "pgmOut" <<endl;
 			break;
 		case 4:
-			//pgmSave(string somefile, string tag, unsigned int pgmCols, unsigned int pgmRows, unsigned int pgmMaxval, unsigned int pixels[][1024])
+			//pgmSave( defaultOutFile, tag, pgmCols, pgmRows, pgmMaxval, pixels[][1024]);
 			cout << "pgmSave" <<endl;
 			break;
 		default:
@@ -74,7 +75,7 @@ int main ()
 	}
 
 	//else
-	//*----PASS CHECKS
+	/*----PASS CHECKS
 	{
 		cout << tag << endl << pgmCols << endl << pgmRows << endl << pgmMaxval << endl << endl;
 
