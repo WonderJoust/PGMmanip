@@ -12,25 +12,24 @@
 
 using namespace std;
 
-int pgmRead (string somefile, string &tag, int &pgmCols, int &pgmRows, int &pgmMaxval, int pixels[][1024]);
+int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &pgmRows, unsigned int &pgmMaxval, unsigned int pixels[][1024]);
 
 int main ()
 {
 	string tag = "null";
-	int pgmCols=0;
-	int pgmRows=0;
-	int pgmMaxval=0;
-	int pixels[1024][1024];
+	unsigned int pgmCols=0;
+	unsigned int pgmRows=0;
+	unsigned int pgmMaxval=0;
+	unsigned int pixels[1024][1024];
 
+	string defaultFile = "somepic.pgm";
 
-	string thisFile = "somepic.pgm";
-
-	if (pgmRead (thisFile, tag, pgmCols, pgmRows, pgmMaxval, pixels))
+	if (pgmRead (defaultFile, tag, pgmCols, pgmRows, pgmMaxval, pixels))
 		cout << "Unexpected value in header. Please check source file.";
 
 	else
 	{
-		/*----PASS CHECKS
+		//*----PASS CHECKS
 		cout << tag << endl << pgmCols << endl << pgmRows << endl << pgmMaxval << endl << endl;
 
 		for ( int j = 0; j < pgmRows; j++ )
@@ -39,7 +38,8 @@ int main ()
 				cout << pixels[j][i] << " ";
 			cout << endl;
 		}
-		*///---!PASS CHECKS
+		//---!PASS CHECKS
+		//*/
 	}
 
 	return 0;
@@ -48,11 +48,21 @@ int main ()
 }
 
 
-int pgmRead (string somefile, string &tag, int &pgmCols, int &pgmRows, int &pgmMaxval, int pixels[][1024])
+int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &pgmRows, unsigned int &pgmMaxval, unsigned int pixels[][1024])
 {
+
 	string thisLine;
 
+	cout << "Please input the desired PGM filename: [somepic.pgm]";
+	getline (cin, thisLine);
+
+	if (thisLine != "") //input, set filename for read
+		somefile = thisLine;
+
 	ifstream inFile (somefile.c_str());
+
+	if (!inFile.good()) //input file sanity check
+		return 1;
 
 	int row = 0; //row tracker
 
@@ -81,8 +91,8 @@ int pgmRead (string somefile, string &tag, int &pgmCols, int &pgmRows, int &pgmM
 		else //outside header
 		{
 			istringstream is(thisLine);
-			unsigned int col=0;
-			int x=0;
+			unsigned int col=0; //column tracker
+			unsigned int x=0;
 			while (is.good() && col < thisLine.length())
 			{
 				is >> x;
