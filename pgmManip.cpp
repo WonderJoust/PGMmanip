@@ -22,25 +22,71 @@ int main ()
 	unsigned int pgmMaxval=0;
 	unsigned int pixels[1024][1024];
 
-	string defaultFile = "somepic.pgm";
+	string defaultInFile = "somepic.pgm";
+	string defaultOutFile = "somepicMod.pgm";
 
-	if (pgmRead (defaultFile, tag, pgmCols, pgmRows, pgmMaxval, pixels))
+	cout << 	"*********************************"<<endl
+			<<	"*       Welcome to Hardy's      *"<<endl
+			<< 	"*    MAGNIFICENT PGM EDITOR     *"<<endl
+			<<	"* [and boring GIT presentation] *"<<endl
+			<<	"*********************************"<<endl<<endl;
+
+	if (pgmRead (defaultInFile, tag, pgmCols, pgmRows, pgmMaxval, pixels))
 		cout << "Unexpected value in header. Please check source file.";
 
-	else
+	unsigned int option = 5;
+
+	while (true)
 	{
-		//*----PASS CHECKS
+		//Options list
+		cout << "(1) Invert image"<<endl
+				<< "(2) Rotate image" <<endl
+				<< "(3) Output current image info to console"<<endl;
+				<< "(4) Save current image" <<endl
+				<< "(5) Exit"<<endl;
+
+		cout << "Please select an operation [exit]: ";
+		cin >> option;
+
+		switch (option)
+		{
+		case 1:
+			//pgmInvert(pgmMaxval, pixels);
+			cout << "pgmInvert"<<endl;
+			break;
+		case 2:
+			//pgmRotate(pgmCols, pgmRows, pixels)
+			cout << "pgmRotate"<<endl;
+			break;
+		case 3:
+			//pgmOut(string somefile, string tag, unsigned int pgmCols, unsigned int pgmRows, unsigned int pgmMaxval, unsigned int pixels[][1024])
+			cout << "pgmOut" <<endl;
+			break;
+		case 4:
+			//pgmSave(string somefile, string tag, unsigned int pgmCols, unsigned int pgmRows, unsigned int pgmMaxval, unsigned int pixels[][1024])
+			cout << "pgmSave" <<endl;
+			break;
+		default:
+			cout << endl <<"Thanks and goodbye!";
+			return 0;
+			break;
+		}
+	}
+
+	//else
+	//*----PASS CHECKS
+	{
 		cout << tag << endl << pgmCols << endl << pgmRows << endl << pgmMaxval << endl << endl;
 
-		for ( int j = 0; j < pgmRows; j++ )
+		for ( unsigned int j = 0; j < pgmRows; j++ )
 		{
-			for ( int i = 0; i < pgmCols; i++ )
+			for ( unsigned int i = 0; i < pgmCols; i++ )
 				cout << pixels[j][i] << " ";
 			cout << endl;
 		}
-		//---!PASS CHECKS
-		//*/
 	}
+	//---!PASS CHECKS
+	//*/
 
 	return 0;
 
@@ -53,7 +99,7 @@ int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &
 
 	string thisLine;
 
-	cout << "Please input the desired PGM filename: [somepic.pgm]";
+	cout << "Please input the desired PGM filename [somepic.pgm] : ";
 	getline (cin, thisLine);
 
 	if (thisLine != "") //input, set filename for read
