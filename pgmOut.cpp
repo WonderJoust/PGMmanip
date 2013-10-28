@@ -10,7 +10,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "pgmManip2.h"
+#include "functions.h"
 //#include <iostream>
 //#include <string>
 

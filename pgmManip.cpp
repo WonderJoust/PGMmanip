@@ -9,7 +9,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include "pgmManip2.h"
+#include "functions.h"
 
 using namespace std;
 
@@ -53,18 +53,18 @@ int main ()
 		{
 		case 1:
 			pgmInvert(pgmCols, pgmRows, pgmMaxval, pixels);
-			cout << "pgmInvert"<<endl;
+			//cout << "pgmInvert"<<endl;
 			break;
 		case 2:
 			//pgmRotate(pgmCols, pgmRows, pixels)
-			cout << "pgmRotate"<<endl;
+			cout << "pgmRotate not implimented"<<endl;
 			break;
 		case 3:
 			pgmOut( tag, pgmCols, pgmRows, pgmMaxval, pixels );
-			cout << "pgmOut" <<endl;
+			//cout << "pgmOut" <<endl;
 			break;
 		case 4:
-			//pgmSave( defaultOutFile, tag, pgmCols, pgmRows, pgmMaxval, pixels[][1024]);
+			pgmSave( defaultOutFile, tag, pgmCols, pgmRows, pgmMaxval, pixels );
 			cout << "pgmSave" <<endl;
 			break;
 		default:
@@ -165,7 +165,11 @@ int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &
 
 	//Quick sanity check
 	if ( tag == "null" || pgmRows == 0 || pgmCols == 0 || pgmMaxval == 0 )
+	{
+		inFile.close();
 		return 1;
+	}
 
+	inFile.close();
 	return 0;
 }

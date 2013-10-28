@@ -11,7 +11,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "pgmManip2.h"
+#include "functions.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ void pgmInvert (unsigned int pgmCols, unsigned int pgmRows, unsigned int pgmMaxv
 		for ( unsigned int i = 0; i < pgmCols; i++ )
 		{
 			double percent = 1 - ( (static_cast<double>(pixels[j][i])) / (static_cast<double>(pgmMaxval)) );
-			cout << percent <<endl;
+			//cout << percent <<endl;
 
 			pixels[j][i] = pgmMaxval*percent;
 		}
