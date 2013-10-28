@@ -116,44 +116,61 @@ int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &
 
 	int row = 0; //row tracker
 
-	while ( getline(inFile, thisLine) ) //pull line
+	while ( row <3 ) //pull line
 	{
 		//cout << "The line is: " << thisLine << endl;
 
 		if (row == 0) //top line tag
 		{
+			getline(inFile, thisLine);
 			stringstream ss(thisLine);
 			ss >> tag;
+			row++;
 		}
 
 		else if (row == 1) //cols rows
 		{
+			getline(inFile, thisLine);
 			istringstream is(thisLine);
 			is >> pgmCols >> pgmRows;
+			row++;
 		}
 
 		else if (row == 2) //maxval
 		{
+			getline(inFile, thisLine);
 			istringstream is(thisLine);
 			is >> pgmMaxval;
+			row++;
 		}
+	}
 
-		else //outside header
+		unsigned int col=1; //column tracker
+		unsigned int x=0;
+		unsigned int help=0;
+		while (getline(inFile, thisLine))
 		{
+
+
 			istringstream is(thisLine);
-			unsigned int col=0; //column tracker
-			unsigned int x=0;
-			while (is.good() && col < pgmCols)
+			while (is.good())
 			{
+				if ( (col) % (pgmCols+1) == 0)
+				{
+					row++;
+					col=1;
+				}
+
 				is >> x;
 				//cout << x<<endl;
-				pixels[row-3][col] = x;
+				pixels[row-3][col-1] = x;
 				col++;
+				help++;
+
 			}
 
 		}
-		row++;
-	}
+	//row++;
 
 	/*
 	 //----PARSE CHECKS
@@ -165,7 +182,7 @@ int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &
 			cout << pixels[j][i] << " ";
 		cout << endl;
 	}
-	*///---!PARSE CHECKS
+	*///---!PASE CHECKS
 
 	//Quick sanity check
 	if ( tag == "null" || pgmRows == 0 || pgmCols == 0 || pgmMaxval == 0 )
