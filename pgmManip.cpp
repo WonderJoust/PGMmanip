@@ -33,7 +33,10 @@ int main ()
 			<<	"*********************************"<<endl<<endl;
 
 	if (pgmRead (defaultInFile, tag, pgmCols, pgmRows, pgmMaxval, pixels))
+	{
 		cout << "Unexpected value in header. Please check source file.";
+		return 1;
+	}
 
 	unsigned int option = 5;
 
@@ -65,7 +68,7 @@ int main ()
 			break;
 		case 4:
 			pgmSave( defaultOutFile, tag, pgmCols, pgmRows, pgmMaxval, pixels );
-			cout << "pgmSave" <<endl;
+			//cout << "pgmSave" <<endl;
 			break;
 		default:
 			cout << endl <<"Thanks and goodbye!";
@@ -140,7 +143,7 @@ int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &
 			istringstream is(thisLine);
 			unsigned int col=0; //column tracker
 			unsigned int x=0;
-			while (is.good() && col < thisLine.length())
+			while (is.good() && col < pgmCols)
 			{
 				is >> x;
 				//cout << x<<endl;
@@ -152,12 +155,13 @@ int pgmRead (string somefile, string &tag, unsigned int &pgmCols, unsigned int &
 		row++;
 	}
 
-	/*----PARSE CHECKS
+	/*
+	 //----PARSE CHECKS
 	cout << tag << endl << pgmCols << endl << pgmRows << endl << pgmMaxval << endl << endl;
 
-	for ( int j = 0; j < pgmRows; j++ )
+	for ( unsigned int j = 0; j < pgmRows; j++ )
 	{
-		for ( int i = 0; i < pgmCols; i++ )
+		for ( unsigned int i = 0; i < pgmCols; i++ )
 			cout << pixels[j][i] << " ";
 		cout << endl;
 	}
