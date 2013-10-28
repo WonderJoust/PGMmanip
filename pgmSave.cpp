@@ -19,6 +19,7 @@ void pgmSave (string outFile, string tag, unsigned int pgmCols, unsigned int pgm
 
 	string line;
 
+	cin.clear();
 	cout << "Please input the filename to write to [somepicMod.pgm]: ";
 	getline( cin, line );
 
